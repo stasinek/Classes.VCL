@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="Classes.exe"/>
+    <OBJFILES value="Classes.obj tsoft_WindowsSnap.obj tsoft_WindowsTile.obj 
+      tsoft_WindowsMover.obj tsoft_Context.obj tsoft_WindowsCollector.obj"/>
+    <RESFILES value="Classes.res"/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value="vcl.lib rtl.lib"/>
+    <SPARELIBS value="rtl.lib vcl.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dbrtl.bpi adortl.bpi vcldb.bpi 
+      qrpt.bpi bdertl.bpi vcldbx.bpi dsnap.bpi cds.bpi bdecds.bpi teeui.bpi 
+      teedb.bpi tee.bpi teeqr.bpi ibxpress.bpi visualclx.bpi visualdbclx.bpi 
+      dbexpress.bpi dbxcds.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT"/>
+    <MAINSOURCE value="Classes.cpp"/>
+    <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;&quot;C:\Moje dokumenty\PRC++\BCB5\Classes&quot;;$(BCB)\include;$(BCB)\include\vcl;..\..\Packages;..\..\Libraries"/>
+    <LIBPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;&quot;C:\Moje dokumenty\PRC++\BCB5\Classes&quot;;$(BCB)\lib\obj;$(BCB)\lib;..\..\Packages;..\..\Libraries"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -fp -ff -X- -ps -a4 -6 -b- -k -y 
+      -v -vi- -c -tW -tWM"/>
+    <PFLAGS value="-$YD -$W -$A1 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/ml /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="Classes.res" FORMNAME="" UNITNAME="Classes.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Classes.cpp" FORMNAME="" UNITNAME="Classes" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tsoft_WindowsSnap.cpp" FORMNAME="" UNITNAME="tsoft_WindowsSnap.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tsoft_WindowsTile.cpp" FORMNAME="" UNITNAME="tsoft_WindowsTile.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tsoft_WindowsMover.cpp" FORMNAME="" UNITNAME="tsoft_WindowsMover.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tsoft_Context.cpp" FORMNAME="" UNITNAME="tsoft_Context.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="tsoft_WindowsCollector.cpp" FORMNAME="" UNITNAME="tsoft_WindowsCollector.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=1
+MajorVer=1
+MinorVer=0
+Release=0
+Build=2
+Debug=0
+PreRelease=1
+Special=0
+Private=1
+DLL=0
+Locale=1045
+CodePage=1250
+
+[Version Info Keys]
+CompanyName=TSoft
+FileDescription=
+FileVersion=1.0.0.2
+InternalName=
+LegalCopyright=EMROST-soft
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=Napisane w Borland C++ Builder 6
+PrivateBuild=
+
+[HistoryLists\hlIncludePath]
+Count=3
+Item0=C:\Program Files\Borland\CBuilder6\Projects;C:\Moje dokumenty\PRC++\BCB5\Classes;$(BCB)\include;$(BCB)\include\vcl;..\..\Packages;..\..\Libraries
+Item1=$(BCB)\include;$(BCB)\include\vcl;..\..\Packages;..\..\Libraries
+Item2=$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=4
+Item0=C:\Program Files\Borland\CBuilder6\Projects;C:\Moje dokumenty\PRC++\BCB5\Classes;$(BCB)\lib\obj;$(BCB)\lib;..\..\Packages;..\..\Libraries
+Item1=$(BCB)\lib\obj;$(BCB)\lib;..\..\Packages;..\..\Libraries
+Item2=$(BCB)\lib\obj;$(BCB)\lib;..\..\Packages
+Item3=$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+  </IDEOPTIONS>
+</PROJECT>
