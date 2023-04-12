@@ -22,10 +22,15 @@ __int32 iact = this->Active;
 for (__int32 d = 0; d < NUM_OF_DESKS; d++)
     {
      if (d!=iact)
-    for (__int32 i = Virtual[d]->Windows_Count()-1; i >= 0; i--)
-     if (Virtual[d]->Window[i]->Visible==true && IsWindow((HWND)Virtual[d]->Window[i]->Hwnd))
-        {ShowWindow(Virtual[d]->Window[i]->Hwnd,SW_SHOW);
-	}
+     {
+        for (__int32 i = Virtual[d]->Windows_Count()-1; i >= 0; i--)
+        {
+            if (Virtual[d]->Window[i]->Visible==true && IsWindow((HWND)Virtual[d]->Window[i]->Hwnd))
+                {
+                    ShowWindow(Virtual[d]->Window[i]->Hwnd,SW_SHOW);
+                }
+        }
+     }
      delete Virtual[d];
     }
 delete Screen;
@@ -40,7 +45,7 @@ for (register __int32 d = 0; d < NUM_OF_DESKS; d++)
     {
      if (d!=iact)
     for (register __int32 i = lpdesk->Virtual[d]->Windows_Count()-1; i >= 0; i--)
-     if ((long)lpdesk->Virtual[d]->Window[i]->Hwnd==(long)hwnd)
+     if ((__int64)lpdesk->Virtual[d]->Window[i]->Hwnd==(__int64)hwnd)
         {return true;
         }
     }
@@ -252,7 +257,7 @@ void __stdcall ts::WindowsVIRTUALDESKTOP::Delete(HWND hwnd) {
 register __int32 i;
 
 for (i = 0; i < this->Count;)
- if ((long)Window[i]->Hwnd==(long)hwnd)
+ if ((__int64)Window[i]->Hwnd==(__int64)hwnd)
     {
     for (__int32 i2 = i, ei2 = this->Count-1; i2 < ei2; i2++)
         {
@@ -339,7 +344,16 @@ Minimized = IsIconic(Hwnd);
 
 void __stdcall ts::WindowsWINDOW::Capture()
 {
+//const int WM_PRINT = 0x0317;
+//conar inr WM_PRINTCLIENT = 0x0318;
+//__int32 PRF_CLIENT = 4;
+//__int32 PRF_CHILDREN = 0x10;
+//__int32 PRF_NON_CLIENT = 2;
+//__int32 COMBINED_PRINTFLAGS = PRF_CLIENT | PRF_CHILDREN | PRF_NON_CLIENT;
+//SendMessage(Handle, WM_PRINTCLIENT, (int)Context->Bitmap.Handle, COMBINED_PRINTFLAGS);
 //Context->Resize(Rect.left-Rect.right,Rect.bottom-Rect.top);
+//BitBlt(Context->Hdc, 0, 0, Rect.right - Rect.left, Rect.bottom - Rect.top, Context->Bitmap.Handle, 0, 0, (int)SRCCOPY);
+
 // ::PrintWindow(Handle,Context->Bitmap.Handle,0);
 //GetWindowRect(Screen->Hwnd,&Virtual[Active]->Rect);
 //Context->Resize(Rect.right - Rect.left,Rect.bottom - Rect.top);
