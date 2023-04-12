@@ -39,3 +39,5 @@ journal*.*
 *.map
 *.o
 Makefile.win
+*.res
+*.bak
