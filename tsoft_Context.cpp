@@ -1,11 +1,11 @@
+//---------------------------------------------------------------------------
 #include "tsoft_Context.h"
 //---------------------------------------------------------------------------
 
 __stdcall ts::Bitmap::Bitmap(HDC ahdc)
 {
-Info = (BITMAPINFO*)LocalAlloc(LPTR,
-                    sizeof(BITMAPINFOHEADER) +
-                    sizeof(RGBQUAD) * (2^32));
+Info = (BITMAPINFO*)LocalAlloc(LPTR,sizeof(BITMAPINFOHEADER)
+                    + sizeof(RGBQUAD) * (2^32));
 Info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 Info->bmiHeader.biWidth = 1;
 Info->bmiHeader.biHeight = 1;
@@ -22,6 +22,7 @@ Hdc = ahdc;
 //Handle = CreateCompatibleBitmap(hdc,Bitmap.Info->bmiHeader.biWidth,Bitmap.Info->bmiHeader.biHeight);
 }
 //---------------------------------------------------------------------------
+
 void __stdcall ts::Bitmap::Resize(int width, int height)
 {
 if (Info->bmiHeader.biWidth==width && Info->bmiHeader.biHeight==height)
@@ -32,112 +33,82 @@ Info->bmiHeader.biHeight = height;
 DeleteObject(Handle);
 Handle = CreateDIBSection(Hdc,Info,DIB_RGB_COLORS,&lpBits,NULL,0);
 }
+//---------------------------------------------------------------------------
 
 __stdcall ts::Bitmap::~Bitmap()
 {
 DeleteObject(Handle);
 LocalFree(Info);
 }
+//---------------------------------------------------------------------------
 
+void ts::Bitmap::Save(HWND hwnd, LPTSTR pszFile, PBITMAPINFO pbi, HBITMAP hBMP, HDC hDC)
+{
+    HANDLE hf;                  /* file handle */
+    BITMAPFILEHEADER hdr;       /* bitmap file-header */
+    PBITMAPINFOHEADER pbih;     /* bitmap info-header */
+    LPBYTE lpBits;              /* memory pointer */
+    DWORD dwTotal;              /* total count of bytes */
+    DWORD cb;                   /* incremental count of bytes */
+    BYTE *hp;                   /* byte pointer */
 
-void ts::Bitmap::Save(HWND hwnd, LPTSTR pszFile, PBITMAPINFO pbi,
-                  HBITMAP hBMP, HDC hDC)
- { 
- 
-    HANDLE hf;                  /* file handle */ 
-    BITMAPFILEHEADER hdr;       /* bitmap file-header */ 
-    PBITMAPINFOHEADER pbih;     /* bitmap info-header */ 
-    LPBYTE lpBits;              /* memory pointer */ 
-    DWORD dwTotal;              /* total count of bytes */ 
-    DWORD cb;                   /* incremental count of bytes */ 
-    BYTE *hp;                   /* byte pointer */ 
+    DWORD dwTmp;
+    pbih = (PBITMAPINFOHEADER) pbi;
+    lpBits = (LPBYTE) GlobalAlloc(GMEM_FIXED, pbih->biSizeImage);
+    if (!lpBits); // TODO: print error if memory could not be allocated
 
-    DWORD dwTmp; 
- 
- 
-    pbih = (PBITMAPINFOHEADER) pbi; 
-    lpBits = (LPBYTE) GlobalAlloc(GMEM_FIXED, pbih->biSizeImage);    if (!lpBits);
+    /* Retrieve the color table (RGBQUAD array) and the bits
+     * (array of palette indices) from the DIB. */
+    if (!GetDIBits(hDC, hBMP, 0, (WORD) pbih->biHeight, lpBits, pbi, DIB_RGB_COLORS)); // TODO: print error if cant allocate
 
-    /* 
-     * Retrieve the color table (RGBQUAD array) and the bits 
-     * (array of palette indices) from the DIB. 
-     */ 
- 
-    if (!GetDIBits(hDC, hBMP, 0, (WORD) pbih->biHeight, 
-                   lpBits, pbi, DIB_RGB_COLORS)) 
-        ;
+    /* Create the .BMP file. */
+    hf = CreateFile(pszFile,
+                   GENERIC_READ | GENERIC_WRITE,
+                   (DWORD) 0,
+                   (LPSECURITY_ATTRIBUTES) NULL,
+                   CREATE_ALWAYS,
+                   FILE_ATTRIBUTE_NORMAL,
+                   (HANDLE) NULL);
 
- 
-    /* Create the .BMP file. */ 
- 
-    hf = CreateFile(pszFile, 
-                   GENERIC_READ | GENERIC_WRITE, 
-                   (DWORD) 0, 
-                   (LPSECURITY_ATTRIBUTES) NULL, 
-                   CREATE_ALWAYS, 
-                   FILE_ATTRIBUTE_NORMAL, 
-                   (HANDLE) NULL); 
- 
-    if (hf == INVALID_HANDLE_VALUE) 
-       ;
- 
-    hdr.bfType = 0x4d42;        /* 0x42 = "B" 0x4d = "M" */ 
- 
-    /* Compute the size of the entire file. */ 
+    if (hf == INVALID_HANDLE_VALUE); // TODO: abort if file can't be created
+    hdr.bfType = 0x4d42; /* 0x42 = "B" 0x4d = "M" */
 
- 
-    hdr.bfSize = (DWORD) (sizeof(BITMAPFILEHEADER) + 
-                 pbih->biSize + pbih->biClrUsed 
-                 * sizeof(RGBQUAD) + pbih->biSizeImage); 
- 
-    hdr.bfReserved1 = 0; 
-    hdr.bfReserved2 = 0; 
- 
-    /* Compute the offset to the array of color indices. */ 
- 
-    hdr.bfOffBits = (DWORD) sizeof(BITMAPFILEHEADER) + 
-                    pbih->biSize + pbih->biClrUsed 
-                    * sizeof (RGBQUAD); 
- 
-    /* Copy the BITMAPFILEHEADER into the .BMP file. */ 
+    /* Compute the size of the entire file. */
+    hdr.bfSize = (DWORD) (sizeof(BITMAPFILEHEADER)
+                          + pbih->biSize
+                          + pbih->biClrUsed * sizeof(RGBQUAD) + pbih->biSizeImage);
+    hdr.bfReserved1 = 0;
+    hdr.bfReserved2 = 0;
 
- 
-    if (!WriteFile(hf, (LPVOID) &hdr, sizeof(BITMAPFILEHEADER), 
-       (LPDWORD) &dwTmp, (LPOVERLAPPED) NULL)) ;
- 
-    /* Copy the BITMAPINFOHEADER and RGBQUAD array into the file. */ 
- 
-    if (!WriteFile(hf, (LPVOID) pbih, sizeof(BITMAPINFOHEADER) 
-                  + pbih->biClrUsed * sizeof (RGBQUAD), 
-                  (LPDWORD) &dwTmp, (LPOVERLAPPED) NULL))
- ;
- 
-    /* Copy the array of color indices into the .BMP file. */ 
+    /* Compute the offset to the array of color indices. */
+    hdr.bfOffBits = (DWORD) sizeof(BITMAPFILEHEADER)
+                    + pbih->biSize
+                    + pbih->biClrUsed * sizeof (RGBQUAD);
 
- 
-    dwTotal = cb = pbih->biSizeImage; 
+    /* Copy the BITMAPFILEHEADER into the .BMP file. */
+    if (!WriteFile(hf, (LPVOID) &hdr, sizeof(BITMAPFILEHEADER),(LPDWORD) &dwTmp, (LPOVERLAPPED) NULL));
+
+    /* Copy the BITMAPINFOHEADER and RGBQUAD array into the file. */
+    if (!WriteFile(hf, (LPVOID) pbih, sizeof(BITMAPINFOHEADER)
+                  + pbih->biClrUsed * sizeof (RGBQUAD),
+                  (LPDWORD) &dwTmp,
+                  (LPOVERLAPPED) NULL));
+
+    /* Copy the array of color indices into the .BMP file. */
+    dwTotal = cb = pbih->biSizeImage;
     hp = lpBits;
-    while (cb > 10*1024*1024)  { 
-            if (!WriteFile(hf, (LPSTR) hp, (int) 10*1024*1024, 
-                          (LPDWORD) &dwTmp, (LPOVERLAPPED) NULL)) 
-                ;
-            cb-= 10*1024*1024;
+    while (cb > 10*1024*1024)  {
+            if (!WriteFile(hf, (LPSTR) hp, (int) 10*1024*1024,
+                          (LPDWORD) &dwTmp, (LPOVERLAPPED) NULL));
+            cb -= 10*1024*1024;
             hp += 10*1024*1024;
-    } 
-    if (!WriteFile(hf, (LPSTR) hp, (int) cb,
-         (LPDWORD) &dwTmp, (LPOVERLAPPED) NULL))
-        ;
-
+    }
+    if (!WriteFile(hf, (LPSTR) hp, (int) cb,(LPDWORD) &dwTmp, (LPOVERLAPPED) NULL));
 
     /* Close the .BMP file. */
-
-    if (!CloseHandle(hf))
-           ;
-
-    /* Free memory. */    GlobalFree((HGLOBAL)lpBits);}
-
-
-
+    if (!CloseHandle(hf)); // TODO: print if error ocurred?
+    GlobalFree((HGLOBAL)lpBits); // free memory
+}
 //---------------------------------------------------------------------------
 
 __stdcall ts::Context::Context()

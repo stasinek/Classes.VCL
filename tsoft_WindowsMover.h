@@ -1,6 +1,6 @@
-//---------------------tsoftware 2001----------------------
-#ifndef sstsoft_WindowsMoverH
-#define sstsoft_WindowsMoverH
+//---------------------sstsoft 2001----------------------
+#ifndef __tsoft_WindowsMover_HDR__
+#define __tsoft_WindowsMover_HDR__
 //---------------------------------------------------------------------
 #include <windows.h>
 //---------------------------------------------------------------------

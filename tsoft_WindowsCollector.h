@@ -1,12 +1,14 @@
+//---------------------sstsoft 2001------------------------------------------
 #ifndef __tsoft_WindowsCollector_HDR__
 #define __tsoft_WindowsCollector_HDR__
 //---------------------------------------------------------------------------
 #include <windows.h>
 #include <winuser.h>
+#pragma hdrstop
+//---------------------------------------------------------------------------
 #include "tsoft_WindowsTile.h"
 #include "tsoft_Context.h"
-namespace ts
-{
+namespace ts {
 //---------------------------------------------------------------------------
 #define KILL_ALL               (int)0
 #define KILL_PROCESS           (int)1

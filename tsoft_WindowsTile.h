@@ -1,6 +1,6 @@
-//---------------------------------------------------------------------------
-#ifndef tsoft_WindowsTile_H
-#define tsoft_WindowsTile_H
+//----------------------sstsoft 2001-----------------------------------------
+#ifndef __tsoft_WindowsTile_H__
+#define __tsoft_WindowsTile_H__
 //---------------------------------------------------------------------------
 #include <windows.h>
 #include <winuser.h>

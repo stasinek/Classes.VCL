@@ -1,3 +1,4 @@
+//---------------------------------------------------------------------------
 #include "tsoft_WindowsCollector.h"
 //---------------------------------------------------------------------------
 
@@ -37,7 +38,8 @@ delete Screen;
 }
 //---------------------------------------------------------------------------
 
-BOOL CALLBACK ts::WindowsCOLLECTOR::DoEnumWindowsProc(HWND hwnd, LPARAM lparam) {
+BOOL CALLBACK ts::WindowsCOLLECTOR::DoEnumWindowsProc(HWND hwnd, LPARAM lparam)
+{
 ts::WindowsCOLLECTOR* lpdesk = (ts::WindowsCOLLECTOR*)lparam;
 register __int32 iact = lpdesk->Active_Desktop_Index();
 
@@ -210,7 +212,8 @@ return 0;
 }
 //---------------------------------------------------------------------------
 
-bool __stdcall ts::WindowsCOLLECTOR::Move(HWND hwnd,__int32 isrc,__int32 idsk) {
+bool __stdcall ts::WindowsCOLLECTOR::Move(HWND hwnd,__int32 isrc,__int32 idsk)
+{
 if (idsk==isrc)
     return false;
 Virtual[isrc]->Delete(hwnd); Virtual[idsk]->Add(hwnd);
@@ -231,7 +234,8 @@ return MessageBoxA(NULL,lpMsgBuf,"Last Error:",
 }
 //---------------------------------------------------------------------------
 
-__stdcall  ts::WindowsVIRTUALDESKTOP::WindowsVIRTUALDESKTOP(void) {
+__stdcall  ts::WindowsVIRTUALDESKTOP::WindowsVIRTUALDESKTOP(void)
+{
  Count = 0; Printed = false;
  Context = new  ts::Context;
  Active = 0;
@@ -239,13 +243,15 @@ __stdcall  ts::WindowsVIRTUALDESKTOP::WindowsVIRTUALDESKTOP(void) {
  }
 //---------------------------------------------------------------------------
 
-__stdcall ts::WindowsVIRTUALDESKTOP::~WindowsVIRTUALDESKTOP(void) {
+__stdcall ts::WindowsVIRTUALDESKTOP::~WindowsVIRTUALDESKTOP(void)
+{
  delete Context;
  for (register __int32 i = 0; i < MAX_NUM_OF_WINDOWS; i++) if (Window[i]) delete Window[i];
 }
 //---------------------------------------------------------------------------
 
-void __stdcall ts::WindowsVIRTUALDESKTOP::Add(HWND hwnd) {
+void __stdcall ts::WindowsVIRTUALDESKTOP::Add(HWND hwnd)
+{
 Window[this->Count]->Hwnd = hwnd;
 Window[this->Count]->Visible = IsWindowVisible(hwnd);
 this->Count++;
@@ -253,7 +259,8 @@ return;
 }
 //---------------------------------------------------------------------------
 
-void __stdcall ts::WindowsVIRTUALDESKTOP::Delete(HWND hwnd) {
+void __stdcall ts::WindowsVIRTUALDESKTOP::Delete(HWND hwnd)
+{
 register __int32 i;
 
 for (i = 0; i < this->Count;)
@@ -274,7 +281,8 @@ return;
 }
 //---------------------------------------------------------------------------
 
-HWND __stdcall ts::WindowsVIRTUALDESKTOP::Handle_at_XY(__int32 X, __int32 Y) {
+HWND __stdcall ts::WindowsVIRTUALDESKTOP::Handle_at_XY(__int32 X, __int32 Y)
+{
 RECT rect;
 
 for (__int32 i = 0, ei = this->Windows_Count(); i < ei; i++)
@@ -306,7 +314,8 @@ ReleaseDC(thandle, thdc);
 }
 //---------------------------------------------------------------------------
 
-__stdcall  ts::WindowsSCREEN::WindowsSCREEN(){
+__stdcall  ts::WindowsSCREEN::WindowsSCREEN()
+{
 Hwnd = GetDesktopWindow();
 GetWindowRect(Hwnd,&Rect);
 Hdc = GetDC(Hwnd);
@@ -326,7 +335,12 @@ BitBlt(Context->Hdc,
     	 0,0,SRCCOPY);
 }
 //---------------------------------------------------------------------------
-__stdcall  ts::WindowsSCREEN::~WindowsSCREEN() {ReleaseDC(0,Hdc); DeleteObject(Hdc); delete Context; }
+__stdcall  ts::WindowsSCREEN::~WindowsSCREEN()
+{
+ReleaseDC(0,Hdc);
+DeleteObject(Hdc);
+delete Context;
+}
 //---------------------------------------------------------------------------
 
 void __stdcall ts::WindowsWINDOW::Set(HWND AHwnd)
@@ -339,7 +353,6 @@ Visible = IsWindowVisible(Hwnd);
 // ::PrintWindow(Handle,Context->Bitmap.Handle,0);
 Minimized = IsIconic(Hwnd);
 }
-
 //---------------------------------------------------------------------------
 
 void __stdcall ts::WindowsWINDOW::Capture()
@@ -362,4 +375,5 @@ void __stdcall ts::WindowsWINDOW::Capture()
 //    	 Screen->Hdc,
 //    	 0,0,SRCCOPY);
 }
+//---------------------------------------------------------------------------
 
